@@ -1,4 +1,4 @@
-# consulting-pm-skills
+# client-intelligence
 
 A Claude plugin marketplace with one plugin, **client-industry-intel**. It turns the first week of research on a new client or industry into one command.
 
@@ -7,8 +7,8 @@ A Claude plugin marketplace with one plugin, **client-industry-intel**. It turns
 In Claude Code:
 
 ```
-/plugin marketplace add Nidhicollab/consulting-pm-skills
-/plugin install client-industry-intel@consulting-pm-skills
+/plugin marketplace add Nidhicollab/client-intelligence
+/plugin install client-industry-intel@client-intelligence
 ```
 
 Then ask, for example: *"Run a client intel brief on Duke Energy, focused on operations and supply chain."*
