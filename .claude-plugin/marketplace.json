@@ -1,0 +1,16 @@
+{
+  "name": "consulting-pm-skills",
+  "description": "Claude skills for consulting product managers entering a new client or industry.",
+  "owner": {
+    "name": "Nidhi Kashyap",
+    "url": "https://github.com/Nidhicollab"
+  },
+  "plugins": [
+    {
+      "name": "client-industry-intel",
+      "source": "./plugins/client-industry-intel",
+      "description": "Sourced client & industry briefing: company, financials & KPIs, investor view, industry & VC funding, customers, incumbent/adjacent/insurgent competitors, SPEED-C, and PM implications — via parallel research agents.",
+      "category": "productivity"
+    }
+  ]
+}

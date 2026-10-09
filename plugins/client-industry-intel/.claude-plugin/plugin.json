@@ -1,0 +1,11 @@
+{
+  "name": "client-industry-intel",
+  "version": "1.0.0",
+  "description": "Build a sourced client and industry intelligence briefing for a consulting PM entering a new client or industry; runs parallel research agents and can set up ongoing monitoring.",
+  "author": {
+    "name": "Nidhi Kashyap",
+    "url": "https://github.com/Nidhicollab"
+  },
+  "license": "MIT",
+  "keywords": ["consulting", "product-management", "market-research", "competitive-analysis", "speed-c"]
+}
