@@ -4,6 +4,8 @@
 
 A Claude plugin marketplace with one plugin, `client-industry-intel`, built for consulting product managers. Six research agents work in parallel, their findings are verified against the sources, and the result is a briefing where every claim links to its evidence.
 
+**[Framework Guide](https://docs.google.com/document/d/1NvTha87wH5MhtE_fuJxZQoZHZamNv__Y-J1HOXBe9Mw/edit?usp=sharing):** a Google Doc explaining every framework the skill uses.
+
 ## Quick start
 
 In Claude Code:
@@ -49,6 +51,8 @@ flowchart LR
 Agent 2 and the funding radar in agent 3 are optional modules. Agent 2 runs for public companies only.
 
 ## Frameworks inside the plugin
+
+For the detail behind each framework, read the [Framework Guide](https://docs.google.com/document/d/1NvTha87wH5MhtE_fuJxZQoZHZamNv__Y-J1HOXBe9Mw/edit?usp=sharing) (Google Doc).
 
 ### Competitor classification
 
