@@ -112,6 +112,10 @@ class ReviewFixTests(unittest.TestCase):
         self.assertIn("the `mode` field", text)
         self.assertIn("leaves the machine", text)
 
+    def test_shared_rules_forbid_sending_user_email(self):
+        text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("Never put the user's email address", text)
+
     def test_voice_question_maps_to_auto(self):
         text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
         self.assertIn("`--mode auto`", text)

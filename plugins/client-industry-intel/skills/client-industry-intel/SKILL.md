@@ -86,6 +86,7 @@ Spawn all seven agents with the Agent tool in a single message so they run in pa
 - Search the web. Prefer sources from the last 12 months, and mark anything older.
 - Source priority, from highest to lowest: regulatory filings and regulators (10-K, 10-Q, 8-K, FERC, state PUCs, EIA, SEC), earnings materials and call transcripts, company releases and website, reputable research and industry bodies, major business press, and trade press. Blogs and forums count only as sentiment and must be labeled that way.
 - A claim found only on the company's own website is a company claim. Look for an independent source; if there is none, say so.
+- Never put the user's email address, or any personal email, in a request header, User-Agent, URL or payload, including for sites such as SEC EDGAR that ask automated tools for a contact email. Use the web search and fetch tools; if a source refuses without an email, use another source.
 - Label every metric with its value, unit, reporting period and reporting entity.
 - Keep reported facts, analyst or third-party estimates, and your own interpretation separate.
 - If data isn't public, return a record with the claim "not publicly available" and name the closest proxy.
