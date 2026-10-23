@@ -152,6 +152,9 @@ class BuildTests(unittest.TestCase):
         self.assertIn("https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js", t)
         self.assertIn('securityLevel: "strict"', t)
 
+    def test_wide_flowcharts_scroll_instead_of_shrinking(self):
+        self.assertIn("flowchart: { useMaxWidth: false }", self.template())
+
     def test_main_writes_file_and_rejects_invalid(self):
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp) / "hub.html"

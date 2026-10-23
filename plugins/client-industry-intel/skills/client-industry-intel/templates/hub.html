@@ -59,6 +59,7 @@ a{color:var(--accent)}
     window.mermaid.initialize({
       startOnLoad: false,
       securityLevel: "strict",
+      flowchart: { useMaxWidth: false },
       theme: window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "default"
     });
   }
