@@ -5,6 +5,7 @@ Usage: python3 make_podcast.py --script podcast-script.md --out-dir DIR --mode a
 Speaker lines start with HOST A:, HOST B: or NARRATOR:. Prints a JSON result.
 """
 import argparse
+import http.client
 import json
 import os
 import re
@@ -168,7 +169,7 @@ def make(script_path, out_dir, requested="auto", env=None, platform=None, run=su
     if mode in ("openai", "elevenlabs"):
         try:
             audio = synth_service(mode, segments, env, out_dir, post)
-        except OSError as exc:
+        except (OSError, http.client.HTTPException, ValueError) as exc:
             mode = "mac" if platform == "darwin" else "script"
             notes.append(
                 f"The text-to-speech service failed ({exc}); "

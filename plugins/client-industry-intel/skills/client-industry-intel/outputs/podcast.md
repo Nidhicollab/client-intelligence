@@ -29,11 +29,12 @@ Style rules:
 - Name sources in speech: "according to their second-quarter 10-Q", "an analyst note from September".
 - Say aloud when something is an estimate or inference.
 - Round numbers for speech and keep the unit: "about 4.2 billion dollars".
-- If an SOW was used, details from it may appear, and the podcast is then confidential.
+- If an SOW was used and the voice is the Mac voice, details from it may appear, and the podcast is then confidential.
+- If an SOW was used and the voice is a text-to-speech service, the script leaves the machine: it is sent to OpenAI or ElevenLabs. Keep out names of client staff, figures and contract terms from the SOW, as with web searches. Describe the work in general terms instead.
 
 ## 2. Make the audio
 
-Run, with the mode the user chose in Step 3 (`mac`, `openai` or `elevenlabs`; `auto` if they did not choose):
+Run, with `--mode mac` if the user chose the Mac voice, and `--mode auto` if they chose the text-to-speech service or did not choose. Run it with the Bash tool's timeout set to 600000 ms, because a text-to-speech run sends one request per speaker turn and takes several minutes:
 
 ```bash
 python3 "<skill folder>/scripts/make_podcast.py" --script "clients/<company-slug>/podcast-script.md" --out-dir "clients/<company-slug>" --mode <mode>
@@ -41,7 +42,7 @@ python3 "<skill folder>/scripts/make_podcast.py" --script "clients/<company-slug
 
 The script prints JSON: `mode`, `audio` (file name or null), `words`, `minutes`, `notes`.
 
-- If `notes` says the script is outside 13 to 17 minutes, revise the script toward 2,200 words and run again, once.
+- If `notes` says the script is outside 13 to 17 minutes, revise it toward the word count for the voice actually used, as given by the `mode` field: about 2,700 words for `mac`, about 2,200 for `openai` or `elevenlabs`. Then run again, once. A two-host script that fell back to the Mac voice keeps its `HOST A:` and `HOST B:` labels; the Mac voice reads both.
 - If `audio` is null, the script is the deliverable; tell the user why, using `notes`.
 
 ## 3. Record it in the hub data
@@ -49,5 +50,5 @@ The script prints JSON: `mode`, `audio` (file name or null), `words`, `minutes`,
 Copy the result into `hub.json`:
 
 ```json
-"podcast": {"audio": "<audio>", "script": "podcast-script.md", "voice": "<mode>", "minutes": <minutes>, "notes": [<notes>]}
+"podcast": {"audio": "<audio file name, or null without quotes>", "script": "podcast-script.md", "voice": "<mode>", "minutes": <minutes>, "notes": [<notes>]}
 ```

@@ -128,6 +128,24 @@ class MakeTests(unittest.TestCase):
         self.assertEqual(commands, ["say", "afconvert"])
         self.assertTrue(any("failed" in n for n in result["notes"]))
 
+    def test_dropped_download_falls_back_to_mac(self):
+        import http.client
+
+        def dropping_post(url, headers, body):
+            raise http.client.IncompleteRead(b"partial")
+
+        result = mp.make(self.script, self.dir, "openai", {"OPENAI_API_KEY": "k"}, "darwin",
+                         run=lambda cmd, check: None, post=dropping_post)
+        self.assertEqual((result["mode"], result["audio"]), ("mac", "podcast.m4a"))
+        self.assertTrue(any("failed" in n for n in result["notes"]))
+
+    def test_bad_request_value_falls_back_to_script_off_mac(self):
+        def bad_post(url, headers, body):
+            raise ValueError("URL can't contain control characters")
+
+        result = mp.make(self.script, self.dir, "elevenlabs", {"ELEVENLABS_API_KEY": "k"}, "linux", post=bad_post)
+        self.assertEqual((result["mode"], result["audio"]), ("script", None))
+
     def test_mac_mode_runs_say_then_afconvert(self):
         commands = []
 

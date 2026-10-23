@@ -36,7 +36,7 @@ th{background:var(--panel)}
 audio{width:100%;max-width:600px}
 a{color:var(--accent)}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.4/dist/mermaid.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -190,7 +190,11 @@ a{color:var(--accent)}
         return;
       }
       sec.appendChild(el("p", "sowhat", o.so_what));
-      sec.appendChild(visual(o.visual, after));
+      try {
+        sec.appendChild(visual(o.visual, after));
+      } catch (e) {
+        sec.appendChild(el("p", "badge", "This visual could not be drawn. The evidence is listed below."));
+      }
       if (o.caption) sec.appendChild(el("p", "muted", o.caption));
       sec.appendChild(el("h3", null, "Evidence"));
       sec.appendChild(evidenceList(o.evidence));
@@ -283,7 +287,9 @@ a{color:var(--accent)}
         built[t.id] = true;
         var after = [];
         t.build(t.section, after);
-        after.forEach(function (f) { f(); });
+        after.forEach(function (f) {
+          try { f(); } catch (e) { t.section.appendChild(el("p", "badge", "A diagram or chart on this tab could not be drawn.")); }
+        });
       }
     });
     try { history.replaceState(null, "", "#" + id); } catch (e) { /* file:// may refuse */ }

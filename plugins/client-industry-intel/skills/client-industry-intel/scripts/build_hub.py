@@ -32,6 +32,29 @@ URL_RE = re.compile(r"^https?://", re.IGNORECASE)
 ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 
+def _is_string_list(value):
+    return isinstance(value, list) and all(isinstance(item, str) for item in value)
+
+
+def _signals_errors(signals):
+    errors = []
+    hiring = signals.get("hiring")
+    if not isinstance(hiring, dict):
+        return ["signals.hiring must be an object"]
+    if hiring.get("status") not in {"ok", "not_found", "unreadable"}:
+        errors.append("signals.hiring.status must be ok, not_found or unreadable")
+    for key, fields in (("groups", ("dimension", "name", "count")), ("skills", ("name", "count")),
+                        ("notable_roles", ("title",))):
+        items = hiring.get(key, [])
+        if not isinstance(items, list) or not all(isinstance(i, dict) and all(f in i for f in fields) for i in items):
+            errors.append(f"signals.hiring.{key} must be a list of objects with {', '.join(fields)}")
+    for key, fields in (("posts", ("author", "summary", "url")), ("news", ("title", "url"))):
+        items = signals.get(key, [])
+        if not isinstance(items, list) or not all(isinstance(i, dict) and all(f in i for f in fields) for i in items):
+            errors.append(f"signals.{key} must be a list of objects with {', '.join(fields)}")
+    return errors
+
+
 def _visual_errors(where, visual):
     if not isinstance(visual, dict) or visual.get("kind") not in VISUAL_KINDS:
         return [f"{where}: visual.kind must be one of {sorted(VISUAL_KINDS)}"]
@@ -46,11 +69,16 @@ def _visual_errors(where, visual):
         cards = visual.get("cards")
         if not isinstance(cards, list) or not cards:
             return [f"{where}: cards visual needs a non-empty 'cards' list"]
-        return [
-            f"{where}: card {i} needs a 'title'"
-            for i, card in enumerate(cards)
-            if not isinstance(card, dict) or not card.get("title")
-        ]
+        errors = []
+        for i, card in enumerate(cards):
+            if not isinstance(card, dict) or not card.get("title"):
+                errors.append(f"{where}: card {i} needs a 'title'")
+                continue
+            for field in ("body", "tags"):
+                value = card.get(field)
+                if value is not None and not _is_string_list(value):
+                    errors.append(f"{where}: card {i} {field} must be a list of strings")
+        return errors
     elif kind == "table":
         columns, rows = visual.get("columns"), visual.get("rows")
         if not isinstance(columns, list) or not columns or not isinstance(rows, list):
@@ -161,6 +189,8 @@ def validate(data):
             errors.append("podcast.audio must be a file name next to hub.html, or null")
     if not isinstance(data.get("signals"), dict):
         errors.append("signals must be an object")
+    else:
+        errors.extend(_signals_errors(data["signals"]))
 
     records = data.get("records")
     if not isinstance(records, list):

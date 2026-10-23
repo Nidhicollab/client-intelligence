@@ -60,7 +60,7 @@ Send one plain message asking for:
 
 Then, in one AskUserQuestion call:
 
-- **Podcast voice:** "Mac voice" (built in, one narrator), and "Text-to-speech service" (two hosts) only if `OPENAI_API_KEY` or `ELEVENLABS_API_KEY` is set (check with `printenv OPENAI_API_KEY ELEVENLABS_API_KEY | wc -l`, never print the keys). If the machine is not a Mac and no key is set, skip this question and tell the user the podcast will be a script only.
+- **Podcast voice:** "Mac voice" (built in, one narrator, run with `--mode mac`), and "Text-to-speech service" (two hosts, run with `--mode auto`) only if `OPENAI_API_KEY` or `ELEVENLABS_API_KEY` is set (check with `printenv OPENAI_API_KEY ELEVENLABS_API_KEY | wc -l`, never print the keys). If the machine is not a Mac and no key is set, skip this question and tell the user the podcast will be a script only.
 - **Miro board:** yes or no. Ask only if the Miro connector's tools are available.
 
 Read the role's file from `roles/` now.
@@ -89,7 +89,7 @@ Spawn all seven agents with the Agent tool in a single message so they run in pa
 - Label every metric with its value, unit, reporting period and reporting entity.
 - Keep reported facts, analyst or third-party estimates, and your own interpretation separate.
 - If data isn't public, return a record with the claim "not publicly available" and name the closest proxy.
-- Return between 10 and 25 records.
+- Agents 1 to 6 return between 10 and 25 records. Agent 7 returns one object in its own shape, below.
 
 **Output schema.** Agents 1 to 6 return a JSON array of records in this shape:
 
@@ -133,6 +133,23 @@ Spawn all seven agents with the Agent tool in a single message so they run in pa
    - `posts`: public LinkedIn posts by the company's employees and leaders that appear in search results, from the last 90 days. Keep only business signals: hiring pushes, launches, team announcements. Each has `author`, `author_title`, `date`, `summary` and `url`. Do not build profiles of individuals.
    - `news`: from RSS feeds (the company newsroom feed, a Google News RSS feed for the company name, the industry's main trade publications) and industry press, from the last 30 days. Each has `title`, `outlet`, `date`, a one-line `tldr`, `url`, and `paywalled` (true means headline-only TL;DR).
    - `feeds`: the RSS feed URLs used.
+
+   Return exactly this shape. The hub reads these keys, and `scripts/build_hub.py` rejects other shapes:
+
+   ```json
+   {
+     "checked": "YYYY-MM-DD",
+     "hiring": {"status": "ok", "careers_url": "https://...", "board_url": "https://... or null", "total_open": 42,
+                "groups": [{"dimension": "team", "name": "Engineering", "count": 12}],
+                "skills": [{"name": "Python", "count": 6}],
+                "notable_roles": [{"title": "...", "team": "...", "location": "...", "url": "https://..."}]},
+     "posts": [{"author": "...", "author_title": "...", "date": "YYYY-MM-DD", "summary": "...", "url": "https://..."}],
+     "news": [{"title": "...", "outlet": "...", "date": "YYYY-MM-DD", "tldr": "...", "url": "https://...", "paywalled": false}],
+     "feeds": ["https://..."]
+   }
+   ```
+
+   `dimension` is `team`, `location` or `seniority`. When `status` is `not_found` or `unreadable`, leave the hiring lists empty.
 
 ## Step 6: Merge and verify
 

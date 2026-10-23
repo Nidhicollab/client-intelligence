@@ -100,5 +100,22 @@ class ReleaseTests(unittest.TestCase):
             self.assertIn(phrase, text)
 
 
+class ReviewFixTests(unittest.TestCase):
+    def test_skill_gives_signals_agent_the_hub_shape(self):
+        text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+        for key in ('"dimension"', '"notable_roles"', '"careers_url"', '"board_url"', '"paywalled"'):
+            self.assertIn(key, text)
+
+    def test_podcast_guide_covers_timeout_mode_and_confidentiality(self):
+        text = (SKILL / "outputs" / "podcast.md").read_text(encoding="utf-8")
+        self.assertIn("600000", text)
+        self.assertIn("the `mode` field", text)
+        self.assertIn("leaves the machine", text)
+
+    def test_voice_question_maps_to_auto(self):
+        text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("`--mode auto`", text)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -96,6 +96,25 @@ class ValidateTests(unittest.TestCase):
         self.assertTrue(has_error(build_hub.validate(d), "visual.kind"))
 
 
+    def test_signals_shape_is_checked(self):
+        d = sample()
+        d["signals"]["hiring"]["groups"] = {"team": {"Engineering": 12}}
+        self.assertTrue(has_error(build_hub.validate(d), "signals.hiring.groups"))
+        d = sample()
+        del d["signals"]["hiring"]["status"]
+        self.assertTrue(has_error(build_hub.validate(d), "signals.hiring.status"))
+        d = sample()
+        d["signals"]["news"] = "none"
+        self.assertTrue(has_error(build_hub.validate(d), "signals.news"))
+
+    def test_card_body_and_tags_must_be_string_lists(self):
+        d = sample()
+        d["outputs"][0]["visual"] = {"kind": "cards", "cards": [{"title": "H1", "body": "one line"}]}
+        self.assertTrue(has_error(build_hub.validate(d), "body"))
+        d["outputs"][0]["visual"] = {"kind": "cards", "cards": [{"title": "H1", "body": ["a"], "tags": "high"}]}
+        self.assertTrue(has_error(build_hub.validate(d), "tags"))
+
+
 class BuildTests(unittest.TestCase):
     def template(self):
         return TEMPLATE.read_text(encoding="utf-8")
@@ -129,7 +148,7 @@ class BuildTests(unittest.TestCase):
 
     def test_template_pins_cdn_versions(self):
         t = self.template()
-        self.assertIn("https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js", t)
+        self.assertIn("https://cdn.jsdelivr.net/npm/mermaid@10.9.4/dist/mermaid.min.js", t)
         self.assertIn("https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js", t)
         self.assertIn('securityLevel: "strict"', t)
 
