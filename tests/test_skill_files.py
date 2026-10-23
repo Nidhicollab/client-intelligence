@@ -30,5 +30,25 @@ class PrivacyTests(unittest.TestCase):
                     self.assertIsNone(pattern.search(path.read_text(encoding="utf-8")))
 
 
+class OutputGuideTests(unittest.TestCase):
+    def read(self, name):
+        return (SKILL / "outputs" / name).read_text(encoding="utf-8")
+
+    def test_podcast_guide_uses_script_and_formats(self):
+        text = self.read("podcast.md")
+        self.assertIn("scripts/make_podcast.py", text)
+        for marker in ("HOST A:", "HOST B:", "NARRATOR:", "2,200"):
+            self.assertIn(marker, text)
+
+    def test_hub_guide_documents_schema_and_builder(self):
+        text = self.read("hub.md")
+        self.assertIn("scripts/build_hub.py", text)
+        for key in ("company", "as_of", "role", "confidential", "miro_url", "podcast", "outputs", "signals", "records"):
+            self.assertIn(f"`{key}`", text)
+
+    def test_miro_guide_exists(self):
+        self.assertIn("miro_url", self.read("miro.md"))
+
+
 if __name__ == "__main__":
     unittest.main()
