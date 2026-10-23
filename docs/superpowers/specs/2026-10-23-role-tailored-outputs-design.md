@@ -216,6 +216,9 @@ Implementation notes: the scripts are Python (standard library only) rather than
 4. Whether `say` and `afconvert` produce a 15-minute file in reasonable time.
 5. The text-to-speech services' current per-request text limits and model names.
 
+Resolved 4: `say` rendered 2,400 words in about 7 seconds and `afconvert` converted it in under 1 second. The Mac voice speaks about 180 words a minute and ignores slower `-r` rates, so a Mac-voice script targets about 2,700 words for 15 minutes; service scripts stay at about 2,200.
+Resolved 5: OpenAI model `gpt-4o-mini-tts` with voices including alloy and nova (OpenAI's API reference page blocked automated reading; the 4096-character input limit is the long-standing documented value and is kept). ElevenLabs model `eleven_multilingual_v2`, header `xi-api-key`, 10,000-character limit per request; the script uses 5,000-character chunks.
+
 Each item is resolved before the step that depends on it is built. If an item cannot be resolved, that part of the design changes and is brought back for review.
 
 ## Testing
