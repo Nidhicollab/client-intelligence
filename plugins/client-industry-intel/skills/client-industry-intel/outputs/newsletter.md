@@ -22,11 +22,11 @@ Store the address or channel only in the scheduled task. Never write it to a fil
 
 ## 3. Create the scheduled task
 
-Create a daily routine: a scheduled cloud task that runs on Anthropic's cloud, not the user's machine. Use the `RemoteTrigger` tool's `create` action, or the `/schedule` command if that tool isn't available. Include the delivery connector (Gmail or Slack) in the routine. Never use `CronCreate` or a local cron job: those stop when the session or computer does. Give it the daily task prompt below with every `<...>` filled in from this run. If creating it fails, tell the user why and do not retry silently.
+Create a daily routine: a scheduled cloud task that runs on Anthropic's cloud, not the user's machine. Use the `RemoteTrigger` tool's `create` action, or the `/schedule` command if that tool isn't available. Include the delivery connector (Gmail or Slack) in the routine. Never use `CronCreate` or a local cron job: those stop when the session or computer does. Name it "<Company> daily newsletter" so the user can find it among several. Give it the daily task prompt below with every `<...>` filled in from this run. If creating it fails, tell the user why and do not retry silently.
 
 ## 4. Confirm
 
-Tell the user the delivery route, the time, and that the first newsletter arrives tomorrow.
+Tell the user the delivery route, the time, and that the first newsletter arrives tomorrow. Give the routine's link, and say they can see, pause or delete all their newsletters at https://claude.ai/code/routines. To add a newsletter for another company, they run the skill on that company's URL.
 
 ## Daily task prompt
 

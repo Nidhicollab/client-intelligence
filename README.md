@@ -6,6 +6,8 @@ A Claude plugin marketplace with one plugin, `client-industry-intel`, for consul
 
 **[Framework Guide](https://docs.google.com/document/d/1cRi-vkNXB3iFRfVVwzrIeIPufj6hzb8nigOgNdQGAYo/edit?usp=sharing):** a Google Doc explaining every framework the skill uses.
 
+**[User Guide](docs/USER-GUIDE.md):** a step-by-step walkthrough of a run, with example prompts and how to set up newsletters for several companies.
+
 ## Quick start
 
 In Claude Code:
