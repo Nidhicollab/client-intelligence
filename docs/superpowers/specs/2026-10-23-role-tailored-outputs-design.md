@@ -216,6 +216,9 @@ Implementation notes: the scripts are Python (standard library only) rather than
 4. Whether `say` and `afconvert` produce a 15-minute file in reasonable time.
 5. The text-to-speech services' current per-request text limits and model names.
 
+Resolved 1: not settled in this session, because no Gmail connector is connected here. The newsletter guide offers Gmail only when a Gmail tool that sends messages is available at setup time, so a drafts-only connector is never offered. Checked again in end-to-end testing.
+Resolved 2: scheduled cloud routines run as full Claude Code cloud sessions and can include MCP connectors such as Slack (from third-party guides to the research-preview routines feature; Anthropic's own page was not found).
+Resolved 3: create the routine with the `RemoteTrigger` tool's `create` action, or the `/schedule` command. `CronCreate` is session-only and expires after 7 days, so it is not used.
 Resolved 4: `say` rendered 2,400 words in about 7 seconds and `afconvert` converted it in under 1 second. The Mac voice speaks about 180 words a minute and ignores slower `-r` rates, so a Mac-voice script targets about 2,700 words for 15 minutes; service scripts stay at about 2,200.
 Resolved 5: OpenAI model `gpt-4o-mini-tts` with voices including alloy and nova (OpenAI's API reference page blocked automated reading; the 4096-character input limit is the long-standing documented value and is kept). ElevenLabs model `eleven_multilingual_v2`, header `xi-api-key`, 10,000-character limit per request; the script uses 5,000-character chunks.
 

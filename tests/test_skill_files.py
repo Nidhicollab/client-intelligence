@@ -50,5 +50,12 @@ class OutputGuideTests(unittest.TestCase):
         self.assertIn("miro_url", self.read("miro.md"))
 
 
+class NewsletterGuideTests(unittest.TestCase):
+    def test_newsletter_guide_covers_delivery_and_limits(self):
+        text = (SKILL / "outputs" / "newsletter.md").read_text(encoding="utf-8")
+        for phrase in ("last 24 hours", "Gmail", "Slack", "official careers page", "never include", "Daily task prompt"):
+            self.assertIn(phrase, text)
+
+
 if __name__ == "__main__":
     unittest.main()
