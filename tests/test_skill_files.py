@@ -57,5 +57,33 @@ class NewsletterGuideTests(unittest.TestCase):
             self.assertIn(phrase, text)
 
 
+class SkillFileTests(unittest.TestCase):
+    def setUp(self):
+        self.text = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+
+    def test_frontmatter_name(self):
+        self.assertTrue(self.text.startswith('---\nname: "client-industry-intel"\n'))
+
+    def test_referenced_files_exist(self):
+        paths = set(re.findall(r"`((?:roles|outputs|templates|scripts)/[\w.-]+\.(?:md|py|html))`", self.text))
+        self.assertGreaterEqual(len(paths), 7)
+        for rel in paths:
+            with self.subTest(path=rel):
+                self.assertTrue((SKILL / rel).is_file())
+
+    def test_lists_every_role_slug(self):
+        for slug in ROLE_SLUGS:
+            self.assertIn(f"`{slug}`", self.text)
+
+    def test_has_nine_steps_and_seven_agents(self):
+        for n in range(1, 10):
+            self.assertIn(f"## Step {n}:", self.text)
+        self.assertIn("7. **Signals.**", self.text)
+
+    def test_keeps_v1_frameworks(self):
+        for phrase in ("Incumbent", "Adjacent", "Insurgent", "SPEED-C", "KPI"):
+            self.assertIn(phrase, self.text)
+
+
 if __name__ == "__main__":
     unittest.main()

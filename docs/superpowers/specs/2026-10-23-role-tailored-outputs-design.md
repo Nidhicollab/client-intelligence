@@ -77,12 +77,12 @@ Two prompts.
 
 Multiple choice (one AskUserQuestion call):
 
-- Role: product manager, engineering lead or architect, UX or product designer, engagement lead or partner, business or data analyst.
 - Podcast voice: Mac voice, or a text-to-speech service. The service option appears only if `OPENAI_API_KEY` or `ELEVENLABS_API_KEY` is set. On a machine that is not a Mac and has no key, the podcast is script only, and the skill says so.
 - Miro board: yes or no. Offered only if the Miro connector is available.
 
 Free text (one plain message):
 
+- Role, chosen by number from the five roles (product manager, engineering lead or architect, UX or product designer, engagement lead or partner, business or data analyst). Any other role is mapped to the closest one, and the skill says which.
 - 2-3 lines on what they have been asked to build or change
 - the project or idea focus
 - optional file paths, or drag-and-drop, for the client's proposal and SOW
