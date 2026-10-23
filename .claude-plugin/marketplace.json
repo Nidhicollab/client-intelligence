@@ -9,7 +9,7 @@
     {
       "name": "client-industry-intel",
       "source": "./plugins/client-industry-intel",
-      "description": "Sourced client & industry briefing: company, financials & KPIs, investor view, industry & VC funding, customers, incumbent/adjacent/insurgent competitors, SPEED-C, and PM implications — via parallel research agents.",
+      "description": "Company URL in, role-tailored client hub out: 15-minute podcast, four visuals (maps, flowcharts, heatmaps, cards), Signals on hiring and news, optional Miro board, and a daily newsletter. Seven parallel research agents with source verification.",
       "category": "productivity"
     }
   ]

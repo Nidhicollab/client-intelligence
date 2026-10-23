@@ -85,5 +85,20 @@ class SkillFileTests(unittest.TestCase):
             self.assertIn(phrase, self.text)
 
 
+import json  # noqa: E402
+
+
+class ReleaseTests(unittest.TestCase):
+    def test_plugin_version(self):
+        meta = json.loads((ROOT / "plugins/client-industry-intel/.claude-plugin/plugin.json").read_text(encoding="utf-8"))
+        self.assertEqual(meta["version"], "2.0.0")
+
+    def test_readme_covers_v2(self):
+        text = (ROOT / "README.md").read_text(encoding="utf-8")
+        for phrase in ("Product manager", "Engineering lead", "UX or product designer", "Engagement lead", "data analyst",
+                       "podcast", "newsletter", "Signals", "Miro", "website URL"):
+            self.assertIn(phrase, text)
+
+
 if __name__ == "__main__":
     unittest.main()
