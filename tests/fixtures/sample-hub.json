@@ -1,0 +1,53 @@
+{
+  "company": "Example Energy Co.",
+  "as_of": "2026-10-23",
+  "role": "product-manager",
+  "confidential": true,
+  "miro_url": null,
+  "notes": ["Miro not connected, so no board was made."],
+  "podcast": {"audio": "podcast.m4a", "script": "podcast-script.md", "voice": "mac", "minutes": 14.8, "notes": []},
+  "outputs": [
+    {
+      "id": "opportunity-tree",
+      "title": "Opportunity tree",
+      "status": "complete",
+      "so_what": "Outage response is the biggest opportunity. Two of three hypotheses depend on field data the client has not shared.",
+      "visual": {"kind": "mermaid", "code": "flowchart TD\n  A[Cut outage minutes] --> B[Slow crew dispatch]\n  B --> H1[H1: Mobile dispatch cuts response time]"},
+      "evidence": ["r001", "r004"]
+    },
+    {
+      "id": "stakeholder-map",
+      "title": "Customer and stakeholder map",
+      "status": "complete",
+      "so_what": "Residential customers drive volume. Industrial buyers drive margin.",
+      "visual": {"kind": "table", "columns": ["Segment", "Buyer", "Share"], "rows": [["Residential", "Homeowner", {"text": "High", "level": "high"}], ["Industrial", "Plant manager", "Medium"]]},
+      "evidence": ["r002"]
+    },
+    {
+      "id": "competitors",
+      "title": "Competitor landscape",
+      "status": "complete",
+      "so_what": "Insurgents are winning on software, not price.",
+      "visual": {"kind": "chart", "config": {"type": "bar", "data": {"labels": ["Incumbent", "Adjacent", "Insurgent"], "datasets": [{"label": "Competitors found", "data": [4, 3, 5]}]}}},
+      "evidence": ["r003"]
+    },
+    {
+      "id": "experiments",
+      "title": "Hypothesis and experiment cards",
+      "status": "incomplete",
+      "reason": "The customers agent did not return results."
+    }
+  ],
+  "signals": {
+    "checked": "2026-10-23",
+    "hiring": {"status": "ok", "careers_url": "https://example.com/careers", "board_url": null, "total_open": 42, "groups": [{"dimension": "team", "name": "Engineering", "count": 12}], "skills": [{"name": "Python", "count": 6}], "notable_roles": [{"title": "Head of Grid Software", "team": "Engineering", "location": "Charlotte, NC", "url": "https://example.com/careers/123"}]},
+    "posts": [{"author": "Jane Doe", "author_title": "VP Operations", "date": "2026-10-20", "summary": "Announced a new field operations hub.", "url": "https://www.linkedin.com/posts/example"}],
+    "news": [{"title": "Example Energy files rate case", "outlet": "Utility Dive", "date": "2026-10-18", "tldr": "Asks for a 6% rate increase to fund grid upgrades.", "url": "https://example.com/news/1", "paywalled": false}]
+  },
+  "records": [
+    {"id": "r001", "section": "company", "claim": "Average outage duration rose year over year.", "entity": "Example Energy Co.", "metric": "142 minutes SAIDI, FY2025", "source_title": "FY2025 10-K", "source_url": "https://example.com/10k", "source_date": "2026-02-20", "evidence_type": "filing", "confidence": "high", "interpretation": "Reliability is under regulator scrutiny.", "open_question": null, "confidential": false},
+    {"id": "r002", "section": "customers", "claim": "Residential customers are 85% of accounts.", "entity": "Example Energy Co.", "metric": "85% of accounts, FY2025", "source_title": "Investor deck", "source_url": "https://example.com/deck", "source_date": "2026-05-01", "evidence_type": "company", "confidence": "medium", "interpretation": "Volume sits with residential.", "open_question": null, "confidential": false},
+    {"id": "r003", "section": "competitors", "claim": "Three grid-software startups raised Series B rounds this year.", "entity": "Sector", "metric": null, "source_title": "Trade press roundup", "source_url": "https://example.com/news/2", "source_date": "2026-09-01", "evidence_type": "news", "confidence": "medium", "interpretation": "Insurgents are funded.", "open_question": null, "confidential": false},
+    {"id": "r004", "section": "company", "claim": "The SOW targets a 20% cut in dispatch time.", "entity": "Example Energy Co.", "metric": "20% reduction", "source_title": "Client SOW", "source_url": "SOW.pdf", "source_date": "2026-10-01", "evidence_type": "client_document", "confidence": "high", "interpretation": "Defines success for the engagement.", "open_question": "Baseline dispatch time?", "confidential": true}
+  ]
+}

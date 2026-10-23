@@ -44,7 +44,8 @@ plugins/client-industry-intel/
     templates/
       hub.html                        fixed layout for every hub
     scripts/
-      make_podcast.sh                 Mac voice or text-to-speech service
+      make_podcast.py                 Mac voice or text-to-speech service
+      build_hub.py                    validates hub.json and renders the hub
 ```
 
 `SKILL.md` stays short and holds the flow. Claude opens a role or output file only when that step runs, so it reads one role file per run, not five.
@@ -124,6 +125,7 @@ The v1 record schema stays, with two changes:
 
 - `evidence_type` adds `website` and `client_document`.
 - A new boolean field, `confidential`, is true for every `client_document` record.
+- A new string field, `id` (`r001`, `r002`, ...), assigned when the records are merged, so outputs can point to the records behind them.
 
 ### 7. Verify
 
@@ -146,7 +148,7 @@ Everyone gets the podcast as output 1. Outputs 2 to 5 depend on the role:
 
 Without an SOW, outputs that depend on it (opportunity tree, data flow diagram, SOW scope map) use the task description and focus instead, and say so.
 
-**Podcast** (`outputs/podcast.md`, `scripts/make_podcast.sh`):
+**Podcast** (`outputs/podcast.md`, `scripts/make_podcast.py`):
 
 - About 2,200 words, roughly 15 minutes spoken.
 - Running order: cold open; the company in two minutes; industry and competitors; a segment for the listener's role; risks and signals; what to do this week.
@@ -205,6 +207,8 @@ Offered at the end of the run. It replaces v1's weekly monitoring.
 | Newsletter delivery not possible | Say why at setup; do not create the scheduled task |
 
 ## Open items to verify during implementation
+
+Implementation notes: the scripts are Python (standard library only) rather than shell, because chunking text for the speech services and validating the hub data are unreliable in shell. Peers already have `python3` because the plugin install requires git.
 
 1. Whether the Gmail connector can send email or only create drafts. If drafts only, Slack becomes the recommended route.
 2. Whether scheduled cloud tasks can use the user's Gmail and Slack connectors.

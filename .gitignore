@@ -1,0 +1,3 @@
+# Skill output can contain confidential client material
+clients/
+__pycache__/
